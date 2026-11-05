@@ -3,18 +3,21 @@
 #include "Product.h"
 
 int main() {
-    std::cout << "--- Testing CSV Saving ---\n\n";
-
-
-    std::vector<Product> myInventory;
+    std::cout << "--- Testing CSV Loading ---\n\n";
 
     
-    myInventory.push_back(Product(101, "Coffee Beans", 15.50, 10));
-    myInventory.push_back(Product(102, "Paper Cups", 5.00, 100));
-    myInventory.push_back(Product(103, "Oat Milk", 4.25, 3));
+    std::vector<Product> myInventory = loadInventoryFromCSV("inventory.csv");
 
-   
-    saveInventoryToCSV(myInventory, "inventory.csv");
+    
+    if (!myInventory.empty()) {
+        std::cout << "\nInventory List:\n";
+        for (const auto& p : myInventory) {
+            std::cout << "ID: " << p.getId()
+                << " | Name: " << p.getName()
+                << " | Price: $" << p.getPrice()
+                << " | Stock: " << p.getQuantity() << "\n";
+        }
+    }
 
     return 0;
 }

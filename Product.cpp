@@ -1,6 +1,7 @@
 #include "Product.h"
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 Product::Product(int id, std::string name, double price, int quantity)
 	: id(id), name(name), price(price), quantity(quantity) {}
@@ -47,4 +48,43 @@ void saveInventoryToCSV(const std::vector<Product>& inventory, const std::string
 
     file.close();
     std::cout << "Success: Inventory saved to " << filename << "\n";
+}
+std::vector<Product> loadInventoryFromCSV(const std::string& filename) 
+{
+    std::vector<Product> inventory;
+    std::ifstream file(filename);
+
+if (!file.is_open()) {
+    std::cout << "No inventory file found. Starting fresh.\n";
+    return inventory;
+}
+
+std::string line;
+
+std::getline(file, line);
+
+
+while (std::getline(file, line)) {
+    if (line.empty()) continue; 
+
+    std::stringstream ss(line);
+    std::string idStr, name, priceStr, qtyStr;
+
+  
+    std::getline(ss, idStr, ',');
+    std::getline(ss, name, ',');
+    std::getline(ss, priceStr, ',');
+    std::getline(ss, qtyStr, ',');
+
+    
+    int id = std::stoi(idStr);
+    double price = std::stod(priceStr);
+    int qty = std::stoi(qtyStr);
+
+    inventory.push_back(Product(id, name, price, qty));
+}
+
+file.close();
+std::cout << "Successfully loaded " << inventory.size() << " products from " << filename << "\n";
+return inventory;
 }

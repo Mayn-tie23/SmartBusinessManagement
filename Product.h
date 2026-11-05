@@ -24,3 +24,5 @@ public:
 };
 
 void saveInventoryToCSV(const std::vector<Product>& inventory, const std::string& filename);
+std::vector<Product> loadInventoryFromCSV(const std::string& filename);
+
