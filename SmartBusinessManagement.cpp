@@ -1,12 +1,20 @@
-﻿// SmartBusinessManagement.cpp : Defines the entry point for the application.
-//
+﻿#include <iostream>
+#include <vector>
+#include "Product.h"
 
-#include "SmartBusinessManagement.h"
+int main() {
+    std::cout << "--- Testing CSV Saving ---\n\n";
 
-using namespace std;
 
-int main()
-{
-	cout << "Hello CMake." << endl;
-	return 0;
+    std::vector<Product> myInventory;
+
+    
+    myInventory.push_back(Product(101, "Coffee Beans", 15.50, 10));
+    myInventory.push_back(Product(102, "Paper Cups", 5.00, 100));
+    myInventory.push_back(Product(103, "Oat Milk", 4.25, 3));
+
+   
+    saveInventoryToCSV(myInventory, "inventory.csv");
+
+    return 0;
 }
