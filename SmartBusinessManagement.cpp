@@ -1,12 +1,23 @@
-﻿// SmartBusinessManagement.cpp : Defines the entry point for the application.
-//
+﻿#include <iostream>
+#include <vector>
+#include "Product.h"
 
-#include "SmartBusinessManagement.h"
+int main() {
+    std::cout << "--- Testing CSV Loading ---\n\n";
 
-using namespace std;
+    
+    std::vector<Product> myInventory = loadInventoryFromCSV("inventory.csv");
 
-int main()
-{
-	cout << "Hello CMake." << endl;
-	return 0;
+    
+    if (!myInventory.empty()) {
+        std::cout << "\nInventory List:\n";
+        for (const auto& p : myInventory) {
+            std::cout << "ID: " << p.getId()
+                << " | Name: " << p.getName()
+                << " | Price: $" << p.getPrice()
+                << " | Stock: " << p.getQuantity() << "\n";
+        }
+    }
+
+    return 0;
 }
