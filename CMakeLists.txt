@@ -14,6 +14,8 @@ add_executable(SmartBusinessManagement
     InventoryManager.cpp
     SalesManager.cpp
     CSVStorage.cpp
+    Transaction.cpp
+    FinanceManager.cpp
 )
 
 # Enable testing
@@ -64,5 +66,12 @@ if(BUILD_TESTING)
         SalesManagerCSVTest.cpp
     )
     add_test(NAME SalesManagerCSVTest COMMAND SalesManagerCSVTest)
-
+    # Finance manager tests
+    add_executable(FinanceManagerTest
+        Transaction.cpp
+        FinanceManager.cpp
+        CSVStorage.cpp
+        FinanceManagerTest.cpp
+    )
+    add_test(NAME FinanceManagerTest COMMAND FinanceManagerTest)
 endif()
