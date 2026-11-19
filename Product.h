@@ -17,7 +17,6 @@ public:
 	std::string getName() const;
 	double getPrice() const;
 	int getQuantity() const;
-
 	void addStock(int amaount);
 	bool removeStock(int amount);
 	bool isLowStock() const;

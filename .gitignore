@@ -361,3 +361,23 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# CMake build files
+/build/
+cmake-build-*/
+
+# Local test executables
+/SaleTest
+/InventoryManagerTest
+/SalesInventoryTest
+/SalesManagerTest
+/SalesManagerTest.
+/CSVStorageTest
+/SalesManagerCSVTest
+
+# Generated test data
+/test.csv
+/sales.csv
+
+# macOS
+.DS_Store

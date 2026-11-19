@@ -1,22 +1,68 @@
-﻿# CMakeList.txt : CMake project for SmartBusinessManagement, include source and define
-# project specific logic here.
-#
-cmake_minimum_required (VERSION 3.8)
+﻿
+cmake_minimum_required(VERSION 3.8)
 
-# Enable Hot Reload for MSVC compilers if supported.
-if (POLICY CMP0141)
-  cmake_policy(SET CMP0141 NEW)
-  set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
+project(SmartBusinessManagement)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Main application
+add_executable(SmartBusinessManagement
+    SmartBusinessManagement.cpp
+    Product.cpp
+    Sale.cpp
+    InventoryManager.cpp
+    SalesManager.cpp
+    CSVStorage.cpp
+)
+
+# Enable testing
+include(CTest)
+
+if(BUILD_TESTING)
+
+    # Sale tests
+    add_executable(SaleTest
+        Sale.cpp
+        SaleTest.cpp
+    )
+    add_test(NAME SaleTest COMMAND SaleTest)
+
+    # Inventory tests
+    add_executable(InventoryManagerTest
+        Product.cpp
+        InventoryManager.cpp
+        InventoryManagerTest.cpp
+    )
+    add_test(NAME InventoryManagerTest COMMAND InventoryManagerTest)
+
+    # Sales and inventory integration tests
+    add_executable(SalesInventoryTest
+        Product.cpp
+        Sale.cpp
+        InventoryManager.cpp
+        SalesManager.cpp
+        CSVStorage.cpp
+        SalesInventoryTest.cpp
+    )
+    add_test(NAME SalesInventoryTest COMMAND SalesInventoryTest)
+
+    # CSV storage tests
+    add_executable(CSVStorageTest
+        CSVStorage.cpp
+        CSVStorageTest.cpp
+    )
+    add_test(NAME CSVStorageTest COMMAND CSVStorageTest)
+
+    # Sales CSV tests
+    add_executable(SalesManagerCSVTest
+        Product.cpp
+        Sale.cpp
+        InventoryManager.cpp
+        SalesManager.cpp
+        CSVStorage.cpp
+        SalesManagerCSVTest.cpp
+    )
+    add_test(NAME SalesManagerCSVTest COMMAND SalesManagerCSVTest)
+
 endif()
-
-project ("SmartBusinessManagement")
-
-# Add source to this project's executable.
-add_executable (SmartBusinessManagement "SmartBusinessManagement.cpp" 
-"SmartBusinessManagement.h" "Product.h" "Product.cpp")
-
-if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET SmartBusinessManagement PROPERTY CXX_STANDARD 17)
-endif()
-
-# TODO: Add tests and install targets if needed.
