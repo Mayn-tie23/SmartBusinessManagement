@@ -3,21 +3,15 @@ cmake_minimum_required(VERSION 3.16)
 
 project(SmartBusinessManagement LANGUAGES CXX)
 
-# Use C++17
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_AUTOMOC ON)
 
 # Qt6 installation
 list(APPEND CMAKE_PREFIX_PATH "C:/Qt/6.12.0/msvc2022_64")
-
-set(CMAKE_AUTOMOC ON)
-
 find_package(Qt6 REQUIRED COMPONENTS Widgets Graphs)
 
-# ==========================================
-# 1. Main Business Management Application
-# ==========================================
-
+# 1. Original business application - Thoko's main
 add_executable(SmartBusinessManagement
     SmartBusinessManagement.cpp
     SmartBusinessManagement.h
@@ -27,29 +21,22 @@ add_executable(SmartBusinessManagement
     FinanceManager.cpp
     AllocationManager.h
     AllocationManager.cpp
- )
-
-target_link_libraries(SmartBusinessManagement
-    PRIVATE
-    Qt6::Widgets
-    Qt6::Graphs
 )
 
-# ==========================================
-# 2. Qt Window Test
-# ==========================================
+target_link_libraries(SmartBusinessManagement
+    PRIVATE Qt6::Widgets Qt6::Graphs
+)
 
+# 2. Qt window test
 add_executable(QtWindowTest
     QtWindowTest.cpp
- )
+)
 
 target_link_libraries(QtWindowTest
     PRIVATE Qt6::Widgets
 )
-# ==========================================
-# 4. Financial Management GUI
-# ==========================================
 
+# 3. Financial management GUI - Issue #7
 add_executable(FinanceGUI
     FinanceGUI.cpp
     FinanceWindow.cpp
@@ -58,17 +45,43 @@ add_executable(FinanceGUI
     FinanceManager.h
     AllocationManager.cpp
     AllocationManager.h
- )
+)
 
 target_link_libraries(FinanceGUI
     PRIVATE Qt6::Widgets
 )
 
-# ==========================================
-# 5. Copy Required Qt DLLs
-# ==========================================
+# 4. Automated finance unit tests
+enable_testing()
 
-foreach(target SmartBusinessManagement QtWindowTest FinanceGUI)
+add_executable(FinanceUnitTests
+    FinanceUnitTests.cpp
+    FinanceManager.cpp
+    AllocationManager.cpp
+)
+
+add_test(
+    NAME FinanceUnitTests
+    COMMAND FinanceUnitTests
+)
+
+# 5. Main dashboard - Issue #9
+add_executable(MainGUI
+    MainGUI.cpp
+    MainWindow.cpp
+    MainWindow.h
+    FinanceWindow.cpp
+    FinanceWindow.h
+    FinanceManager.cpp
+    AllocationManager.cpp
+)
+
+target_link_libraries(MainGUI
+    PRIVATE Qt6::Widgets
+)
+
+# 6. Copy Qt runtime files
+foreach(target SmartBusinessManagement QtWindowTest FinanceGUI MainGUI)
 
     add_custom_command(TARGET ${target} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
@@ -77,7 +90,6 @@ foreach(target SmartBusinessManagement QtWindowTest FinanceGUI)
         COMMAND_EXPAND_LISTS
     )
 
-    # Copy Windows platform plugin
     add_custom_command(TARGET ${target} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E make_directory
             "$<TARGET_FILE_DIR:${target}>/platforms"
@@ -88,19 +100,3 @@ foreach(target SmartBusinessManagement QtWindowTest FinanceGUI)
     )
 
 endforeach()
-
-# Automated finance unit tests
-enable_testing()
-
-add_executable(FinanceUnitTests
-    FinanceUnitTests.cpp
-    FinanceManager.cpp
-    AllocationManager.cpp
-)
-
-target_compile_features(FinanceUnitTests PRIVATE cxx_std_17)
-
-add_test(
-    NAME FinanceUnitTests
-    COMMAND FinanceUnitTests
-)
