@@ -21,7 +21,7 @@ add_executable(SmartBusinessManagement
     FinanceManager.cpp
     AllocationManager.h
     AllocationManager.cpp
-)
+  )
 
 target_link_libraries(SmartBusinessManagement
     PRIVATE Qt6::Widgets Qt6::Graphs
@@ -30,7 +30,7 @@ target_link_libraries(SmartBusinessManagement
 # 2. Qt window test
 add_executable(QtWindowTest
     QtWindowTest.cpp
-)
+  )
 
 target_link_libraries(QtWindowTest
     PRIVATE Qt6::Widgets
@@ -45,7 +45,7 @@ add_executable(FinanceGUI
     FinanceManager.h
     AllocationManager.cpp
     AllocationManager.h
-)
+ )
 
 target_link_libraries(FinanceGUI
     PRIVATE Qt6::Widgets
@@ -58,7 +58,7 @@ add_executable(FinanceUnitTests
     FinanceUnitTests.cpp
     FinanceManager.cpp
     AllocationManager.cpp
-)
+ )
 
 add_test(
     NAME FinanceUnitTests
@@ -74,7 +74,9 @@ add_executable(MainGUI
     FinanceWindow.h
     FinanceManager.cpp
     AllocationManager.cpp
-)
+    Product.cpp
+    Product.h
+ "InventoryWindow.h" "InventoryWindow.cpp" )
 
 target_link_libraries(MainGUI
     PRIVATE Qt6::Widgets
@@ -100,3 +102,15 @@ foreach(target SmartBusinessManagement QtWindowTest FinanceGUI MainGUI)
     )
 
 endforeach()
+
+# Inventory unit tests - Issue #10
+add_executable(InventoryUnitTests
+    InventoryUnitTests.cpp
+    Product.cpp
+)
+
+add_test(
+    NAME InventoryUnitTests
+    COMMAND InventoryUnitTests
+)
+

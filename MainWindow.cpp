@@ -1,4 +1,4 @@
-
+#include "InventoryWindow.h"
 #include "MainWindow.h"
 #include "FinanceWindow.h"
 
@@ -53,8 +53,9 @@ MainWindow::MainWindow(QWidget* parent)
 }
 
 void MainWindow::openInventory() {
-    QMessageBox::information(this, "Inventory",
-        "Inventory interface is coming in Issue #10.");
+    auto* window = new InventoryWindow();
+    window->setAttribute(Qt::WA_DeleteOnClose);
+    window->show();
 }
 
 void MainWindow::openSales() {
