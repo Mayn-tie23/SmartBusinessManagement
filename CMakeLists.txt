@@ -27,7 +27,7 @@ add_executable(SmartBusinessManagement
     FinanceManager.cpp
     AllocationManager.h
     AllocationManager.cpp
-)
+ )
 
 target_link_libraries(SmartBusinessManagement
     PRIVATE
@@ -41,7 +41,7 @@ target_link_libraries(SmartBusinessManagement
 
 add_executable(QtWindowTest
     QtWindowTest.cpp
-)
+ )
 
 target_link_libraries(QtWindowTest
     PRIVATE Qt6::Widgets
@@ -58,7 +58,7 @@ add_executable(FinanceGUI
     FinanceManager.h
     AllocationManager.cpp
     AllocationManager.h
-)
+ )
 
 target_link_libraries(FinanceGUI
     PRIVATE Qt6::Widgets
@@ -88,3 +88,19 @@ foreach(target SmartBusinessManagement QtWindowTest FinanceGUI)
     )
 
 endforeach()
+
+# Automated finance unit tests
+enable_testing()
+
+add_executable(FinanceUnitTests
+    FinanceUnitTests.cpp
+    FinanceManager.cpp
+    AllocationManager.cpp
+)
+
+target_compile_features(FinanceUnitTests PRIVATE cxx_std_17)
+
+add_test(
+    NAME FinanceUnitTests
+    COMMAND FinanceUnitTests
+)
